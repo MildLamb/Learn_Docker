@@ -13,6 +13,10 @@
   - 更高效的计算资源利用
     - Docker是内核级别的虚拟化，可以在一个物理机上运行很多的容器实例
 
+- Docker的基本组成
+![image](https://user-images.githubusercontent.com/92672384/146863067-bc9b00b3-ee9d-4179-a8fc-868f2e990412.png)
+
+
 
 - Docker安装
 - Docker命令
