@@ -16,6 +16,11 @@
 ## Docker的基本组成
 ![image](https://user-images.githubusercontent.com/92672384/146863067-bc9b00b3-ee9d-4179-a8fc-868f2e990412.png)
 
+- 镜像(image)：docker镜像就好比是一个模板，可以通过这个模板来创建容器服务，romcat镜像 ==> run ==> tomcat01容器(提供服务)  
+通过镜像可以创建多个容器(最终服务或项目的运行是在容器进行的)
+- 容器(container)：Docker利用容器技术，独立运行一个或者一组应用，通过镜像来创建，启动、停止、删除，等基本命令
+- 仓库(repostory)：存放镜像的地方，仓库分为共有仓库和私有仓库
+
 
 
 ## Docker安装
