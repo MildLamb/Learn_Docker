@@ -83,3 +83,114 @@ Deleted: sha256:0910f12649d514b471f1583a16f672ab67e3d29d9833a15dc2df50dd5536e40f
 Deleted: sha256:6682af2fb40555c448b84711c7302d0f86fc716bbe9c7dc7dbd739ef9d757150
 Deleted: sha256:5c062c3ac20f576d24454e74781511a5f96739f289edaadf2de934d06e910b92
 ```
+
+## 容器命令
+**说明：我们有了镜像才可以创建容器，下载一个linux，centos镜像来测试学习**   
+```shell
+docker pull centos
+```
+### 新建容器并启动
+```shell
+docker run [可选参数] imageId/imageName
+
+# 参数说明
+--name="Name"  # 给容器命令，用于区分容器
+-d            # 后台方式运行
+-it           # 使用交互方式运行，进入容器查看内容
+-p            # 指定容器端口
+    -p ip:主机端口:容器端口 (常用)
+    -p 主机端口:容器端口 (常用)
+    -p 容器端口
+    容器端口
+
+-P            # 随机指定端口
+
+# 测试
+[root@VM-16-14-centos ~]# docker run -it 5d0da3dc9764 /bin/bash   # 启动并进入容器
+[root@f84260c46c94 /]# ls  # 查看容器内的centos
+bin  dev  etc  home  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var 
+```
+### 从容器中退出到主机  
+- exit：直接容器停止并退出
+- ctrl+p+q：容器不停止退出
+```shell
+[root@f84260c46c94 /]# exit
+exit
+[root@VM-16-14-centos ~]# 
+```
+### 查看正在运行的容器 docker ps
+```shell
+
+# docker ps 
+# 列出当前正在运行的容器
+# -a    列出当前正在运行的容器，以及历史运行过的容器
+# -n=?   显示最近创建的?个容器
+# -q    只显示容器的编号
+
+[root@VM-16-14-centos ~]# docker ps  # 列出当前正在运行的容器
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+[root@VM-16-14-centos ~]# docker ps -a  # 加-a参数，列出当前正在运行的容器，以及历史运行过的容器
+CONTAINER ID   IMAGE          COMMAND       CREATED         STATUS                          PORTS     NAMES
+f84260c46c94   5d0da3dc9764   "/bin/bash"   7 minutes ago   Exited (0) About a minute ago             competent_ardinghelli
+3b5bd173800c   hello-world    "/hello"      25 hours ago    Exited (0) 25 hours ago                   compassionate_bhaskara
+d1abb0e2d385   hello-world    "/hello"      2 weeks ago     Exited (0) 2 weeks ago                    modest_noyce
+[root@VM-16-14-centos ~]# docker ps -a -n=2
+CONTAINER ID   IMAGE          COMMAND       CREATED          STATUS                     PORTS     NAMES
+f84260c46c94   5d0da3dc9764   "/bin/bash"   11 minutes ago   Exited (0) 5 minutes ago             competent_ardinghelli
+3b5bd173800c   hello-world    "/hello"      25 hours ago     Exited (0) 25 hours ago              compassionate_bhaskara
+```
+
+### 进入正在运行的容器
+```shell
+# 第一种进入正在运行的容器的方式，通过这种方式进入容器再exit可以关闭容器退出，下面的好像不行
+[root@VM-16-14-centos ~]# docker attach fa48d0507d26
+[root@fa48d0507d26 /]# 
+
+# 第二种进入正在运行的容器的方式
+[root@VM-16-14-centos ~]# docker exec -it fa48d0507d26 /bin/bash
+[root@fa48d0507d26 /]# 
+```
+
+### 删除容器
+- docker rm 容器id  : 删除指定的容器
+- docker rm -f $(docker ps -aq)  ： 删除所有的容器
+- docker ps -a -q|xargs docker rm -f : 删除所有的容器
+```shell
+[root@VM-16-14-centos ~]# docker ps -a
+CONTAINER ID   IMAGE          COMMAND       CREATED          STATUS                      PORTS     NAMES
+fa48d0507d26   centos         "/bin/bash"   7 minutes ago    Exited (0) 2 minutes ago              pedantic_beaver
+f84260c46c94   5d0da3dc9764   "/bin/bash"   23 minutes ago   Exited (0) 17 minutes ago             competent_ardinghelli
+3b5bd173800c   hello-world    "/hello"      25 hours ago     Exited (0) 25 hours ago               compassionate_bhaskara
+d1abb0e2d385   hello-world    "/hello"      2 weeks ago      Exited (0) 2 weeks ago                modest_noyce
+[root@VM-16-14-centos ~]# docker rm f84260c46c94  # 删除容器
+f84260c46c94
+[root@VM-16-14-centos ~]# docker ps -a
+CONTAINER ID   IMAGE         COMMAND       CREATED         STATUS                     PORTS     NAMES
+fa48d0507d26   centos        "/bin/bash"   8 minutes ago   Exited (0) 2 minutes ago             pedantic_beaver
+3b5bd173800c   hello-world   "/hello"      25 hours ago    Exited (0) 25 hours ago              compassionate_bhaskara
+d1abb0e2d385   hello-world   "/hello"      2 weeks ago     Exited (0) 2 weeks ago               modest_noyce
+```
+
+### 启动和停止容器的操作
+- docker start 容器id：启动一个容器
+- docker restart 容器id：重启一个容器
+- docker stop 容器id：停止一个正在运行的容器
+- docker kill 容器id：杀死一个容器，强制停止一个容器
+
+```shell
+[root@VM-16-14-centos ~]# docker run -it centos /bin/bash
+[root@5000bf9f8fd1 /]# exit
+exit
+[root@VM-16-14-centos ~]# docker ps -a
+CONTAINER ID   IMAGE     COMMAND       CREATED          STATUS                     PORTS     NAMES
+5000bf9f8fd1   centos    "/bin/bash"   15 seconds ago   Exited (0) 7 seconds ago             eager_gauss
+[root@VM-16-14-centos ~]# docker start 5000bf9f8fd1
+5000bf9f8fd1
+[root@VM-16-14-centos ~]# docker ps 
+CONTAINER ID   IMAGE     COMMAND       CREATED          STATUS         PORTS     NAMES
+5000bf9f8fd1   centos    "/bin/bash"   31 seconds ago   Up 5 seconds             eager_gauss
+[root@VM-16-14-centos ~]# docker stop 5000bf9f8fd1
+5000bf9f8fd1
+[root@VM-16-14-centos ~]# docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```
