@@ -31,3 +31,55 @@ Options:
 -q, --quiet ：只显示镜像的id
 ```
 ### docker search 搜索镜像
+```shell
+[root@VM-16-14-centos ~]# docker search mysql
+NAME                              DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+mysql                             MySQL is a widely used, open-source relation…   11843     [OK]       
+mariadb                           MariaDB Server is a high performing open sou…   4514      [OK]       
+mysql/mysql-server                Optimized MySQL Server Docker images. Create…   888                  [OK]
+
+# 可选项，通过收藏过滤
+# --filter=STARS=3000  # 搜索出来的镜像就是STARS大于等于3000的
+[root@VM-16-14-centos ~]# docker search mysql --filter=STARS=4514
+NAME      DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+mysql     MySQL is a widely used, open-source relation…   11843     [OK]       
+mariadb   MariaDB Server is a high performing open sou…   4514      [OK]
+```
+### docker pull 下载镜像
+```shell
+# 下载镜像：docker pull 镜像名[:tag]
+如果需要指定版本：
+# docker pull mysql:5.7.28
+# docker pull mysql:8.0.18
+[root@VM-16-14-centos ~]# docker pull mysql
+Using default tag: latest   # 如果不写 tag，版本默认使用最后一个
+latest: Pulling from library/mysql
+72a69066d2fe: Pull complete  # 分层下载，docker image的核心 联合文件系统
+93619dbc5b36: Pull complete 
+99da31dd6142: Pull complete 
+626033c43d70: Pull complete 
+37d5d7efb64e: Pull complete 
+ac563158d721: Pull complete 
+d2ba16033dad: Pull complete 
+688ba7d5c01a: Pull complete 
+00e060b6d11d: Pull complete 
+1c04857f594f: Pull complete 
+4d7cfa90e6ea: Pull complete 
+e0431212d27d: Pull complete 
+Digest: sha256:e9027fe4d91c0153429607251656806cc784e914937271037f7738bd5b8e7709  # 签名
+Status: Downloaded newer image for mysql:latest
+docker.io/library/mysql:latest  # 真实地址
+```
+### docker rmi -f 删除镜像
+```shell
+# 删除指定的镜像：docker rmi -f imageid
+# 批量删除所有镜像: docker rmi -f $(docker images -aq)
+[root@VM-16-14-centos ~]# docker rmi -f c20987f18b13
+Untagged: mysql:5.7
+Untagged: mysql@sha256:f2ad209efe9c67104167fc609cca6973c8422939491c9345270175a300419f94
+Deleted: sha256:c20987f18b130f9d144c9828df630417e2a9523148930dc3963e9d0dab302a76
+Deleted: sha256:6567396b065ee734fb2dbb80c8923324a778426dfd01969f091f1ab2d52c7989
+Deleted: sha256:0910f12649d514b471f1583a16f672ab67e3d29d9833a15dc2df50dd5536e40f
+Deleted: sha256:6682af2fb40555c448b84711c7302d0f86fc716bbe9c7dc7dbd739ef9d757150
+Deleted: sha256:5c062c3ac20f576d24454e74781511a5f96739f289edaadf2de934d06e910b92
+```
