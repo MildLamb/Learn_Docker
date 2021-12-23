@@ -83,4 +83,15 @@ Commercial support is available at
 <p><em>Thank you for using nginx.</em></p>
 </body>
 </html>
+
+# 进入容器
+[root@VM-16-14-centos /]# docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                                   NAMES
+cb72bafd2e48   nginx     "/docker-entrypoint.…"   12 minutes ago   Up 12 minutes   0.0.0.0:4399->80/tcp, :::4399->80/tcp   nginx01
+[root@VM-16-14-centos /]# docker exec -it cb72bafd2e48 /bin/bash
+root@cb72bafd2e48:/# whereis nginx
+nginx: /usr/sbin/nginx /usr/lib/nginx /etc/nginx /usr/share/nginx
+root@cb72bafd2e48:/# ls /etc/nginx
+conf.d	fastcgi_params	mime.types  modules  nginx.conf  scgi_params  uwsgi_params
+root@cb72bafd2e48:/# 
 ```
