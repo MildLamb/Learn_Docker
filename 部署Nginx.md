@@ -2,7 +2,7 @@
 1. 搜索镜像 docker search nginx
 2. 下载镜像 docker pull nginx
 3. 运行测试 
-```shell
+```bash
 [root@VM-16-14-centos /]# docker search nginx
 NAME                              DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
 nginx                             Official build of Nginx.                        16002     [OK]       
