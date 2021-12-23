@@ -149,7 +149,45 @@ f84260c46c94   5d0da3dc9764   "/bin/bash"   11 minutes ago   Exited (0) 5 minute
 # 第二种进入正在运行的容器的方式
 [root@VM-16-14-centos ~]# docker exec -it fa48d0507d26 /bin/bash
 [root@fa48d0507d26 /]# 
+
+# 两者的区别
+# docker exec：进入容器后开启一个新的终端，可以在里面操作
+# docker attach：进入容器正在执行的终端，不会启动新的进程
 ```
+
+### 从容器内拷贝文件到主机上
+- docker cp 容器id:容器内路径 目的的主机路径
+```shell
+# 先查看主机的home目录
+[root@VM-16-14-centos ~]# cd /home
+[root@VM-16-14-centos home]# ls
+lighthouse  mildlamb  mysql-5.7.26-linux-glibc2.12-x86_64.tar.gz  wildwolf  www
+
+# 进入容器，创建文件
+[root@VM-16-14-centos home]# docker attach 9b147c3190f8
+[root@9b147c3190f8 /]# cd /home
+[root@9b147c3190f8 home]# ls
+[root@9b147c3190f8 home]# touch test.java
+[root@9b147c3190f8 home]# ls
+test.java
+
+# 停止并退出容器，只要容器还存在容器内的文件也就会存在，无论容器是否是运行的状态
+[root@9b147c3190f8 home]# exit
+exit
+[root@VM-16-14-centos home]# docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+[root@VM-16-14-centos home]# docker ps -a
+CONTAINER ID   IMAGE     COMMAND       CREATED          STATUS                     PORTS     NAMES
+9b147c3190f8   centos    "/bin/bash"   21 minutes ago   Exited (0) 6 seconds ago             dreamy_cori
+
+# 从容器内拷贝文件到主机上
+[root@VM-16-14-centos home]# docker cp 9b147c3190f8:/home/test.java /home  
+
+# 重新检查主机home目录文件，发现test.java拷贝过来了
+[root@VM-16-14-centos home]# ls
+lighthouse  mildlamb  mysql-5.7.26-linux-glibc2.12-x86_64.tar.gz  test.java  wildwolf  www
+```
+
 
 ### 删除容器
 - docker rm 容器id  : 删除指定的容器
