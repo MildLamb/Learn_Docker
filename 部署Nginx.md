@@ -50,6 +50,10 @@ hello-world   latest    feb5d9fea6a5   3 months ago   13.3kB
 centos        latest    5d0da3dc9764   3 months ago   231MB
 [root@VM-16-14-centos /]# docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+# -d 后台运行
+# --name 给容器起名
+# -p 宿主机端口与容器端口映射
 [root@VM-16-14-centos /]# docker run -d --name nginx01 -p 4399:80 nginx
 cb72bafd2e4819a3c78125d4dced652e7aa927f0c52de3415ef2080dd7f48389
 [root@VM-16-14-centos /]# docker ps
