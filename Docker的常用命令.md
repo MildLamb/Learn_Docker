@@ -194,3 +194,244 @@ CONTAINER ID   IMAGE     COMMAND       CREATED          STATUS         PORTS    
 [root@VM-16-14-centos ~]# docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
+## 常用其他命令
+### 后台启动容器
+```shell
+# 命令： docker run -d 容器名
+[root@VM-16-14-centos ~]# docker run -d centos
+469c10fe7d9b2034e87df2c262927c142880d64b5bd878e609c919288fad8b25
+# 问题： 后台启动容器，但docker ps没有发现容器进程
+[root@VM-16-14-centos ~]# docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+# 常见的坑：docker容器使用后台运行，就必须要有一个前台进程，docker发现没有前台应用就会自动停止
+```
+### 查看日志
+```shell
+[root@VM-16-14-centos ~]# docker logs -f -t --tail num d5608c64ed90  # 显示某个容器的近num条日志
+
+[root@VM-16-14-centos ~]# docker logs -tf d5608c64ed90  # 显示某个容器全部的日志
+```
+### 查看容器中进程信息
+```shell
+# docker top 容器id
+[root@VM-16-14-centos ~]# docker top 9b147c3190f8
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+root                29487               29468               0                   09:01               pts/0               00:00:00            /bin/bash
+```
+### 查看镜像的元数据
+```shell
+# docker inspect 容器id
+[root@VM-16-14-centos ~]# docker inspect --help
+
+Usage:  docker inspect [OPTIONS] NAME|ID [NAME|ID...]
+
+Return low-level information on Docker objects
+
+Options:
+  -f, --format string   Format the output using the given Go template
+  -s, --size            Display total file sizes if the type is container
+      --type string     Return JSON for specified type
+[root@VM-16-14-centos ~]# docker inspect 9b147c3190f8
+[
+    {
+        "Id": "9b147c3190f8ec0d4bd2e08a44f0997178c9613ad7870cc75c18ca714937cbee",
+        "Created": "2021-12-23T01:01:15.719728452Z",
+        "Path": "/bin/bash",
+        "Args": [],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 29487,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2021-12-23T01:01:16.068768245Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:5d0da3dc976460b72c77d94c8a1ad043720b0416bfc16c52c45d4847e53fadb6",
+        "ResolvConfPath": "/var/lib/docker/containers/9b147c3190f8ec0d4bd2e08a44f0997178c9613ad7870cc75c18ca714937cbee/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/9b147c3190f8ec0d4bd2e08a44f0997178c9613ad7870cc75c18ca714937cbee/hostname",
+        "HostsPath": "/var/lib/docker/containers/9b147c3190f8ec0d4bd2e08a44f0997178c9613ad7870cc75c18ca714937cbee/hosts",
+        "LogPath": "/var/lib/docker/containers/9b147c3190f8ec0d4bd2e08a44f0997178c9613ad7870cc75c18ca714937cbee/9b147c3190f8ec0d4bd2e08a44f0997178c9613ad7870cc75c18ca714937cbee-json.log",
+        "Name": "/dreamy_cori",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "default",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "host",
+            "Dns": [],
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": null,
+            "BlkioDeviceWriteBps": null,
+            "BlkioDeviceReadIOps": null,
+            "BlkioDeviceWriteIOps": null,
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "KernelMemory": 0,
+            "KernelMemoryTCP": 0,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": false,
+            "PidsLimit": null,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/asound",
+                "/proc/acpi",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/cd58714f5b077cfb72aa6f38e7970b4771fa69054ca67c40401c7d20369e2d40-init/diff:/var/lib/docker/overlay2/3e72a1fdba3e15d8ec553d81055122953ddcbf95f5cdd41e2ff614f6df4e7457/diff",
+                "MergedDir": "/var/lib/docker/overlay2/cd58714f5b077cfb72aa6f38e7970b4771fa69054ca67c40401c7d20369e2d40/merged",
+                "UpperDir": "/var/lib/docker/overlay2/cd58714f5b077cfb72aa6f38e7970b4771fa69054ca67c40401c7d20369e2d40/diff",
+                "WorkDir": "/var/lib/docker/overlay2/cd58714f5b077cfb72aa6f38e7970b4771fa69054ca67c40401c7d20369e2d40/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [],
+        "Config": {
+            "Hostname": "9b147c3190f8",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": true,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": true,
+            "OpenStdin": true,
+            "StdinOnce": true,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/bash"
+            ],
+            "Image": "centos",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {
+                "org.label-schema.build-date": "20210915",
+                "org.label-schema.license": "GPLv2",
+                "org.label-schema.name": "CentOS Base Image",
+                "org.label-schema.schema-version": "1.0",
+                "org.label-schema.vendor": "CentOS"
+            }
+        },
+        "NetworkSettings": {
+            "Bridge": "",
+            "SandboxID": "672ebd46a95ab6c1255f29ca40a34a671b764fc518fb0f60df68cbf06af82ab9",
+            "HairpinMode": false,
+            "LinkLocalIPv6Address": "",
+            "LinkLocalIPv6PrefixLen": 0,
+            "Ports": {},
+            "SandboxKey": "/var/run/docker/netns/672ebd46a95a",
+            "SecondaryIPAddresses": null,
+            "SecondaryIPv6Addresses": null,
+            "EndpointID": "561a79ca5c119967900a89ef3c0b2ca4ae16fe4984829d42512c8bafd677779b",
+            "Gateway": "172.17.0.1",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "172.17.0.2",
+            "IPPrefixLen": 16,
+            "IPv6Gateway": "",
+            "MacAddress": "02:42:ac:11:00:02",
+            "Networks": {
+                "bridge": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "NetworkID": "6c351016746a2af68769fe01f3a446390ed16fc96460c85c7d93eac5ba54ca12",
+                    "EndpointID": "561a79ca5c119967900a89ef3c0b2ca4ae16fe4984829d42512c8bafd677779b",
+                    "Gateway": "172.17.0.1",
+                    "IPAddress": "172.17.0.2",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "MacAddress": "02:42:ac:11:00:02",
+                    "DriverOpts": null
+                }
+            }
+        }
+    }
+]
+```
