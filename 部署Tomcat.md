@@ -4,7 +4,7 @@
 [root@VM-16-14-centos /]# docker pull tomcat:9.0
 
 # 启动运行
-[root@VM-16-14-centos /]# docker run -d -p 8080:8080 --name tomcat01 tomcat
+[root@VM-16-14-centos /]# docker run -d -p 8080:8080 --name tomcat01 tomcat:9.0
 
 # 发现外网访问不了
 
