@@ -34,4 +34,30 @@ drwxr-xr-x 7 root root  4096 Dec  2 14:30 webapps.dist
 drwxrwxrwx 2 root root  4096 Dec  2 14:30 work
 root@3b73888aeb56:/usr/local/tomcat# cd webapps
 root@3b73888aeb56:/usr/local/tomcat/webapps# ls
+# webapps 目录下什么都没有
+root@3b73888aeb56:/usr/local/tomcat/webapps#
+root@3b73888aeb56:/usr/local/tomcat/webapps# cd ..
+root@3b73888aeb56:/usr/local/tomcat# ls
+BUILDING.txt  CONTRIBUTING.md  LICENSE	NOTICE	README.md  RELEASE-NOTES  RUNNING.txt  bin  conf  lib  logs  native-jni-lib  temp  webapps  webapps.dist  work
+root@3b73888aeb56:/usr/local/tomcat# cd webapps.dist/
+root@3b73888aeb56:/usr/local/tomcat/webapps.dist# ls
+ROOT  docs  examples  host-manager  manager
+root@3b73888aeb56:/usr/local/tomcat/webapps.dist# cd ..
+root@3b73888aeb56:/usr/local/tomcat# cp webapps.dist/* webapps
+cp: -r not specified; omitting directory 'webapps.dist/ROOT'
+cp: -r not specified; omitting directory 'webapps.dist/docs'
+cp: -r not specified; omitting directory 'webapps.dist/examples'
+cp: -r not specified; omitting directory 'webapps.dist/host-manager'
+cp: -r not specified; omitting directory 'webapps.dist/manager'
+
+# 上面复制失败是因为没有-r递归参数，-r递归 将webapps.dist下的所有文件复制进webapps目录
+root@3b73888aeb56:/usr/local/tomcat# cp -r  webapps.dist/* webapps
+root@3b73888aeb56:/usr/local/tomcat# cd webapps
+root@3b73888aeb56:/usr/local/tomcat/webapps# ls
+ROOT  docs  examples  host-manager  manager
+root@3b73888aeb56:/usr/local/tomcat/webapps# clear
+root@3b73888aeb56:/usr/local/tomcat/webapps# ls
+ROOT  docs  examples  host-manager  manager
+
+# 刷新外网访问就成功了
 ```
