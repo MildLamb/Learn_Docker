@@ -36,3 +36,42 @@ Removing intermediate container afef08278b37
 Successfully built c35f86d118a0
 Successfully tagged mildlamb/centos:1.0
 ```
+- 启动镜像查看目录
+```bash
+[root@VM-16-14-centos docker-volume-test]# docker run -it c35f86d118a0 /bin/bash
+[root@b70a252159a2 /]# ls
+bin  dev  etc  home  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var  volume01	volume02
+# volume01,volume02就是我们生成镜像的时候自动挂载的，数据卷目录
+```
+- 查看一下卷挂载的目录
+```bash
+[root@VM-16-14-centos ~]# docker ps
+CONTAINER ID   IMAGE                 COMMAND        CREATED         STATUS         PORTS                                       NAMES
+6d588111780e   c35f86d118a0          "/bin/bash"    2 minutes ago   Up 2 minutes                                               elegant_galileo
+6cd2c89647a3   portainer/portainer   "/portainer"   46 hours ago    Up 46 hours    0.0.0.0:8088->9000/tcp, :::8088->9000/tcp   adoring_brattain
+[root@VM-16-14-centos ~]# docker inspect 6d588111780e
+...
+"Mounts": [
+            {
+                "Type": "volume",
+                "Name": "7e8be568cb900ecb50b5b4190be782064918d1ab78e08477c4f08e59e24aa159",
+                "Source": "/var/lib/docker/volumes/7e8be568cb900ecb50b5b4190be782064918d1ab78e08477c4f08e59e24aa159/_data",
+                "Destination": "volume01",
+                "Driver": "local",
+                "Mode": "",
+                "RW": true,
+                "Propagation": ""
+            },
+            {
+                "Type": "volume",
+                "Name": "01b9c239dea48906816d46b24d1ff0f3ced40a957549f04680ac73e182e48f7a",
+                "Source": "/var/lib/docker/volumes/01b9c239dea48906816d46b24d1ff0f3ced40a957549f04680ac73e182e48f7a/_data",
+                "Destination": "volume02",
+                "Driver": "local",
+                "Mode": "",
+                "RW": true,
+                "Propagation": ""
+            }
+        ]
+...
+```
