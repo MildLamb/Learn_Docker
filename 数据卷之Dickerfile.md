@@ -75,3 +75,4 @@ CONTAINER ID   IMAGE                 COMMAND        CREATED         STATUS      
         ]
 ...
 ```
+- 假设构建镜像的时候没有挂载卷，就要手动通过-v进行挂载，-v 卷名:容器内路径
