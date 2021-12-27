@@ -189,8 +189,10 @@ apache-tomcat-9.0.52.tar.gz  jdk-8u202-linux-x64.tar.gz  readme.txt
 FROM centos
 MAINTAINER mildlamb<1902524390@qq.com>
 
+# 左边是宿主机地址 右边是容器地址
 COPY readme.txt /usr/local/readme.txt
 
+# 左边是宿主机地址 右边是容器地址，ADD命令会自动解压文件到右边指定的容器地址
 ADD jdk-8u202-linux-x64.tar.gz /usr/local/
 ADD apache-tomcat-9.0.52.tar.gz /usr/local/
 
