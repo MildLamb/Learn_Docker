@@ -222,5 +222,59 @@ apache-tomcat-9.0.52.tar.gz  Dockerfile  jdk-8u202-linux-x64.tar.gz  readme.txt
 ```
 5. 进入容器
 ```bash
+[root@VM-16-14-centos tomcat]# docker exec -it a95778e2a772 /bin/bash
+[root@a95778e2a772 local]# ls
+apache-tomcat-9.0.52  bin  etc	games  include	jdk1.8.0_202  lib  lib64  libexec  readme.txt  sbin  share  src
+[root@a95778e2a772 local]# pwd
+/usr/local
+```
+6. 编写页面发布测试
+```bash
+# 进入挂载卷的本机文件夹 test目录
+[root@VM-16-14-centos tomcat]# pwd
+/home/mildlamb/build/tomcat
+[root@VM-16-14-centos tomcat]# ls
+test  tomcatlogs
+[root@VM-16-14-centos tomcat]# cd test
 
+# 创建WEB-INF目录，并在该目录下编写web.xml文件
+[root@VM-16-14-centos test]# mkdir WEB-INF
+[root@VM-16-14-centos test]# ls
+WEB-INF
+[root@VM-16-14-centos test]# cd WEB-INF/
+[root@VM-16-14-centos WEB-INF]# vim web.xml
+
+# 在WEB-INF 目录下创建一个jsp页面
+[root@VM-16-14-centos WEB-INF]# cd ..
+[root@VM-16-14-centos test]# vim index.jsp
+```
+- web.xml
+```bash
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+</web-app>
+```
+- jsp
+```bash
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.io.*,java.util.*" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>测试自定义的Tomcat镜像</title>
+</head>
+<body>
+<h1>使用Dockerfile构建Tomcat镜像</h1>
+<ul>
+<li><p><b>站点名:</b>
+   https://github.com/MildLamb/Learn_Docker/blob/main/DockerFile.md
+</p></li>
+</ul>
+</body>
+</html>
 ```
