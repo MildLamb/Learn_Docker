@@ -10,8 +10,8 @@ dockerfile是用来构建docker镜像的文件，命令参数脚本
 **基础知识:**  
 1. 每个保留关键字(指令)都是必须是大写字母
 2. 执行从上到下顺序执行
-3. # 表示注释
+3. #表示注释
 4. 每一个指令都会创建提交一个新的镜像层
 
-**Dockerfile常用命令**  
+# Dockerfile常用命令
 ![image](https://user-images.githubusercontent.com/92672384/147425633-dca18df5-3c7a-496c-8898-889a9d59df07.png)
