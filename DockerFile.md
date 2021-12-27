@@ -179,4 +179,48 @@ drwxr-xr-x  20 root root 4096 Sep 15 14:17 var
 
 ## 实战测试2：Tomcat镜像
 1. 准备镜像文件 tomcat镜像，jdk的压缩包
+```bash
+# 创建一个文件夹，文件夹里面有 tomcat和jdk的安装包
+[root@VM-16-14-centos tomcat]# ls
+apache-tomcat-9.0.52.tar.gz  jdk-8u202-linux-x64.tar.gz  readme.txt
+```
 2. 编写dockerfile文件，官方命名 Dockerfile，build的时候会自动找到这个文件构建镜像
+```bash
+FROM centos
+MAINTAINER mildlamb<1902524390@qq.com>
+
+COPY readme.txt /usr/local/readme.txt
+
+ADD jdk-8u202-linux-x64.tar.gz /usr/local/
+ADD apache-tomcat-9.0.52.tar.gz /usr/local/
+
+RUN yum -y install vim
+
+ENV MYPATH /usr/local
+WORKDIR $MYPATH
+
+ENV JAVA_HOME /usr/local/jdk1.8.0_202
+ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+ENV CATALINA_HOME /usr/local/apache-tomcat-9.0.52
+ENV CATALINA_BASH /usr/local/apache-tomcat-9.0.52
+ENV PATH $PATH:$JAVA_HOME/bin:$CATALINA_HOME/lib:$CATALINA_HOME/bin
+
+EXPOSE 8080
+
+CMD /usr/local/apache-tomcat-9.0.52/bin/startup.sh && tail -F /usr/local/apache-tomcat-9.0.52/bin/logs/catalina.out
+```
+3. 构建镜像，由于使用了官方的名字Dockerfile，所以可以不用 -f 参数
+```bash
+[root@VM-16-14-centos tomcat]# ls
+apache-tomcat-9.0.52.tar.gz  Dockerfile  jdk-8u202-linux-x64.tar.gz  readme.txt
+[root@VM-16-14-centos tomcat]# docker build -t diytomcat:1.0 .
+# 过程很漫长，但也太慢了
+```
+4. 运行容器测试
+```bash
+[root@VM-16-14-centos tomcat]# docker run -d -p 9090:8080 --name mytomcat -v /home/mildlamb/build/tomcat/test:/usr/local/apache-tomcat-9.0.52/webapps/test -v /home/mildlamb/build/tomcat/tomcatlogs/:/usr/local/apache-tomcat-9.0.52/logs diytomcat:1.0
+```
+5. 进入容器
+```bash
+
+```
