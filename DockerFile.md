@@ -280,3 +280,26 @@ WEB-INF
 </body>
 </html>
 ```
+
+# Dockerfile：CentOS 7更换国内源
+## 阿里云源地址
+[https://developer.aliyun.com/mirror/centos?spm=a2c6h.13651102.0.0.3e221b11BXNk8Q](https://developer.aliyun.com/mirror/centos?spm=a2c6h.13651102.0.0.3e221b11BXNk8Q)
+## 宿主机
+```bash
+#获取国内源
+wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+#到/etc/yum.repos.d/目录下查找源
+cd /etc/yum.repos.d/
+#将源拷贝到你Dockerfile所在目录
+```
+## Dockerfile编写
+```bash
+#使用 ADD 命令将 CentOS-Base.repo 拷贝到目标基础镜像的目录下
+ADD  CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
+#更新yum源|如果你不需要更新版本，可以不执行此命令（升级后的版本太高可能导致原有软件不能运行）
+#RUN yum -y update
+#运行yum makecache生成缓存，便于查找
+RUN yum makecache
+#如果觉得占用磁盘空间，可以使用以下指令清除缓存
+RUN yum clean
+```
