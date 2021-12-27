@@ -95,8 +95,8 @@ c35f86d118a0   25 hours ago   /bin/sh -c #(nop)  CMD ["/bin/sh" "-c" "/bin…   
 <missing>      3 months ago   /bin/sh -c #(nop) ADD file:805cb5e15fb6e0bb0…   231MB
 ```
 
-### CMD和ENTRYPOINT的区别
-- 测试CMD
+## CMD和ENTRYPOINT的区别
+### 测试CMD
 ```bash
 # CMD的dockerfile文件
 FROM centos
@@ -146,3 +146,33 @@ docker: Error response from daemon: OCI runtime create failed: container_linux.g
 # cmd的情况下， -l 替换了 CMD["ls","-a"]命令，-l 并不是命令所以报错
 ERRO[0000] error waiting for container: context canceled
 ```
+### 测试ENTRYPOINT
+```bash
+# 创建相同的dockerfile文件，但是使用运行镜像的时候 添加-l参数
+[root@VM-16-14-centos dockerfiles]# docker run entrytest:1.0 -l
+total 56
+drwxr-xr-x   1 root root 4096 Dec 27 03:07 .
+drwxr-xr-x   1 root root 4096 Dec 27 03:07 ..
+-rwxr-xr-x   1 root root    0 Dec 27 03:07 .dockerenv
+lrwxrwxrwx   1 root root    7 Nov  3  2020 bin -> usr/bin
+drwxr-xr-x   5 root root  340 Dec 27 03:07 dev
+drwxr-xr-x   1 root root 4096 Dec 27 03:07 etc
+drwxr-xr-x   2 root root 4096 Nov  3  2020 home
+lrwxrwxrwx   1 root root    7 Nov  3  2020 lib -> usr/lib
+lrwxrwxrwx   1 root root    9 Nov  3  2020 lib64 -> usr/lib64
+drwx------   2 root root 4096 Sep 15 14:17 lost+found
+drwxr-xr-x   2 root root 4096 Nov  3  2020 media
+drwxr-xr-x   2 root root 4096 Nov  3  2020 mnt
+drwxr-xr-x   2 root root 4096 Nov  3  2020 opt
+dr-xr-xr-x 128 root root    0 Dec 27 03:07 proc
+dr-xr-x---   2 root root 4096 Sep 15 14:17 root
+drwxr-xr-x  11 root root 4096 Sep 15 14:17 run
+lrwxrwxrwx   1 root root    8 Nov  3  2020 sbin -> usr/sbin
+drwxr-xr-x   2 root root 4096 Nov  3  2020 srv
+dr-xr-xr-x  13 root root    0 Dec 26 02:08 sys
+drwxrwxrwt   7 root root 4096 Sep 15 14:17 tmp
+drwxr-xr-x  12 root root 4096 Sep 15 14:17 usr
+drwxr-xr-x  20 root root 4096 Sep 15 14:17 var
+```
+- 使用CMD，我们追加的命令会覆盖原来的命令
+- 使用ENTRYPOINT，我们追加的命令会拼接到ENTRYPOINT后面
