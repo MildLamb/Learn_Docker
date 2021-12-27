@@ -176,3 +176,7 @@ drwxr-xr-x  20 root root 4096 Sep 15 14:17 var
 ```
 - 使用CMD，我们追加的命令会覆盖原来的命令
 - 使用ENTRYPOINT，我们追加的命令会拼接到ENTRYPOINT后面
+
+## 实战测试2：Tomcat镜像
+1. 准备镜像文件 tomcat镜像，jdk的压缩包
+2. 编写dockerfile文件，官方命名 Dockerfile，build的时候会自动找到这个文件构建镜像
