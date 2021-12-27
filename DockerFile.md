@@ -186,12 +186,12 @@ apache-tomcat-9.0.52.tar.gz  jdk-8u202-linux-x64.tar.gz  readme.txt
 ```
 2. 编写dockerfile文件，官方命名 Dockerfile，build的时候会自动找到这个文件构建镜像
 ```bash
-FROM centos
+FROM centos:7
 MAINTAINER mildlamb<1902524390@qq.com>
 
-# 左边是宿主机地址 右边是容器地址
 COPY readme.txt /usr/local/readme.txt
-
+# 配置Dockerfile的阿里云镜像加速，具体操作在下面，需要复制些文件到Dockerfile所在的目录
+ADD  CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
 # 左边是宿主机地址 右边是容器地址，ADD命令会自动解压文件到右边指定的容器地址
 ADD jdk-8u202-linux-x64.tar.gz /usr/local/
 ADD apache-tomcat-9.0.52.tar.gz /usr/local/
@@ -282,7 +282,7 @@ WEB-INF
 ```
 
 # Dockerfile：CentOS 7更换国内源
-## 阿里云源地址
+## 阿里云源地址(注意Centos版本宿主机和容器中的centos要一致)
 [https://developer.aliyun.com/mirror/centos?spm=a2c6h.13651102.0.0.3e221b11BXNk8Q](https://developer.aliyun.com/mirror/centos?spm=a2c6h.13651102.0.0.3e221b11BXNk8Q)
 ## 宿主机
 ```bash
