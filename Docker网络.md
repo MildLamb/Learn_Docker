@@ -89,3 +89,16 @@ rtt min/avg/max/mdev = 0.058/0.061/0.067/0.007 ms
 veth-pair 就是一对的虚拟设备接口，他们都是成对出现的，一段连着协议，一段彼此相连  
 正因为这个特性，evth-pair充当一个桥梁，连接各种虚拟网络设备  
 5. 再启动一个容器tomcat02，测试tomcat01和tomcat02之间是否可以ping通
+```bash
+# 和上面安装ip addr命令一样，先进入容器，准备安装 ping 工具
+# 安装ping工具的命令 apt-get install inetutils-ping
+# 安装后测试是否可以ping通，可以
+[root@VM-16-14-centos /]# docker exec -it tomcat01 ping 172.17.0.3
+PING 172.17.0.3 (172.17.0.3): 56 data bytes
+64 bytes from 172.17.0.3: icmp_seq=0 ttl=64 time=0.120 ms
+64 bytes from 172.17.0.3: icmp_seq=1 ttl=64 time=0.113 ms
+64 bytes from 172.17.0.3: icmp_seq=2 ttl=64 time=0.107 ms
+^C--- 172.17.0.3 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max/stddev = 0.107/0.113/0.120/0.000 ms
+```
