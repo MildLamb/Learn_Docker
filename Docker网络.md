@@ -102,3 +102,11 @@ PING 172.17.0.3 (172.17.0.3): 56 data bytes
 3 packets transmitted, 3 packets received, 0% packet loss
 round-trip min/avg/max/stddev = 0.107/0.113/0.120/0.000 ms
 ```
+![image](https://user-images.githubusercontent.com/92672384/147530185-f63f09c6-1c1f-493e-a841-6d04069bd7a3.png)
+
+结论：tomcat01和tomcat02是共用一个路由器docker0  
+所有的容器不指定网络的情况下，都是用docker0路由的，docker会给我们的容器分配一个默认的可用ip  
+
+![image](https://user-images.githubusercontent.com/92672384/147530530-14fc2ff2-cd69-47d2-a535-3ef007467a52.png)
+Docker使用的是Linux的桥接，宿主机中是一个Docker容器的网桥docker0  
+只要容器删除，对应的网桥对也删除了  
