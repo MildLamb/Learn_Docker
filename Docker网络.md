@@ -86,4 +86,6 @@ rtt min/avg/max/mdev = 0.058/0.061/0.067/0.007 ms
        valid_lft forever preferred_lft forever
 ```
 4. 我们发现这个容器带来的网卡，都是一对一对的，比如上面的 95---94  
-evth-pair 就是一对的虚拟设备接口，他们都是成对出现的，一段连着协议，一段彼此相连  
+veth-pair 就是一对的虚拟设备接口，他们都是成对出现的，一段连着协议，一段彼此相连  
+正因为这个特性，evth-pair充当一个桥梁，连接各种虚拟网络设备  
+5. 再启动一个容器tomcat02，测试tomcat01和tomcat02之间是否可以ping通
