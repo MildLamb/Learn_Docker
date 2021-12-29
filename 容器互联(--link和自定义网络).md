@@ -389,3 +389,5 @@ PING tomcat-docker-01 (192.168.0.4) 56(84) bytes of data.
 3 packets transmitted, 3 received, 0% packet loss, time 2000ms
 rtt min/avg/max/mdev = 0.069/0.076/0.090/0.009 ms
 ```
+**结论：**  
+假设我们要跨网络操作，就需要使用docker network connect 将容器连接到网络
