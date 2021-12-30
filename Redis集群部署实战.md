@@ -1,9 +1,7 @@
 # Redis集群部署
+## Redis集群的参数配置
+### 在redis.conf中的一些参数说明：
 ```txt
-2.7 Redis集群的参数配置
-
-在redis.conf中的一些参数说明：
-
 cluster-enabled :
 
 如果配置”yes”则开启集群功能，此redis实例作为集群的一个节点，否则，它是一个普通的单一的redis实例。
